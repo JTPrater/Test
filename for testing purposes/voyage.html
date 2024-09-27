@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyage</title>
+    <style>
+        /* Add basic styles for the images */
+        img {
+            position: absolute;
+            display: block; /* Ensure images are displayed */
+            max-width: 100%; /* Ensure images do not exceed the container width */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        /* Specific styles for the sky image */
+        #sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; /* Span the full width of the page */
+            height: 50vh; /* From the top of the page to the top of the water */
+            z-index: 0; /* Lowest z-index to place it behind all other elements */
+        }
+
+        /* Specific styles for the water image */
+        #water {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%; /* Span the full width of the page */
+            height: 50vh; /* Half of the viewport height */
+            z-index: 1; /* Lower z-index to place it behind britannic */
+        }
+
+        /* Specific styles for the britannic image */
+        #britannic {
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3; /* Higher z-index to bring it in front of water */
+            width: 45%; /* Adjust the width to make it smaller */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        /* Specific styles for the swater image */
+        #swater {
+            position: absolute;
+            bottom: 0; /* Same as water */
+            left: 50%; /* Same as water */
+            transform: translateX(-50%); /* Same as water */
+            width: 100%; /* Same as water */
+            height: 50vh; /* Same as water */
+            z-index: 4; /* Higher z-index to bring it in front of britannic */
+            opacity: 0.5; /* Semi-transparent */
+        }
+
+        /* Container for clouds */
+        #cloud-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50vh; /* Same height as the sky */
+            overflow: hidden; /* Hide overflow to prevent affecting page dimensions */
+            z-index: 2; /* Below britannic but above water */
+        }
+
+        /* Specific styles for the clouds */
+        .cloud {
+            position: absolute;
+            top: 10%; /* Adjust as needed */
+            width: 10%; /* Adjust as needed */
+            height: auto; /* Maintain aspect ratio */
+            opacity: 0.8; /* Semi-transparent */
+        }
+
+        /* Animation for the waves */
+        @keyframes moveWaves {
+            from {
+                background-position: 0 0;
+            }
+            to {
+                background-position: -200% 0;
+            }
+        }
+
+        /* Container for waves */
+        #waves-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50vh; /* Same height as the water */
+            overflow: hidden; /* Hide overflow to prevent affecting page dimensions */
+            z-index: 5; /* Higher z-index to bring it in front of britannic */
+        }
+
+        #waves {
+            position: absolute;
+            bottom: 0;
+            left: -28.2%;
+            transform: translateX(-50%);
+            width: 200%; /* Make it twice as wide to create a seamless loop */
+            height: 50vh;
+            background: url('images/waves.png') repeat-x; /* Use the waves image as a repeating background */
+            animation: moveWaves 425s linear infinite; /* Animate the background position */
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 800px) {
+            #britannic {
+                width: 60%; /* Adjust the width for smaller screens */
+            }
+            #waves {
+                animation: moveWaves 15s linear infinite; /* Adjust animation speed for smaller screens */
+            }
+        }
+
+        @media (min-width: 2560px) {
+            #britannic {
+                width: 30%; /* Adjust the width for larger screens */
+            }
+            #waves {
+                animation: moveWaves 60s linear infinite; /* Adjust animation speed for larger screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <img id="sky" src="images/sky.jpg" alt="Sky">
+    <div id="cloud-container"></div> <!-- Container for clouds -->
+    <img id="britannic" src="images/britannic.png" alt="Britannic">
+    <div id="waves-container">
+        <div id="waves"></div> <!-- Waves container -->
+    </div>
+    <img id="water" src="images/water.png" alt="Water">
+    <img id="swater" src="images/swater.png" alt="Swater">
+
+    <script src="scripts/voyage.js"></script>
+    <script>
+        function adjustBritannicPosition() {
+            const britannic = document.getElementById('britannic');
+            britannic.style.bottom = `${45.2 * window.innerHeight / 100}px`;
+        }
+
+        window.addEventListener('resize', adjustBritannicPosition);
+        window.addEventListener('load', adjustBritannicPosition);
+    </script>
+</body>
+</html>
